@@ -15,6 +15,7 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage>
     with SingleTickerProviderStateMixin {
   late TabController controller;
+  List userList = [];
   @override
   void initState() {
     controller = TabController(length: 2, vsync: this);
@@ -60,8 +61,10 @@ class _TransactionPageState extends State<TransactionPage>
           children: [
             controller.index == 0
                 ? const SizedBox()
+                //this section explain how to delete all data from database
                 : FloatingActionButton(
-                    onPressed: () {}, child: const Icon(Icons.delete_forever)),
+                    onPressed: () => deleteAllUsers(),
+                    child: const Icon(Icons.delete_forever)),
             const SizedBox(
               width: 5,
             ),
@@ -95,6 +98,7 @@ class _TransactionPageState extends State<TransactionPage>
         valueListenable: Boxes.getUsers().listenable(),
         builder: (context, box, _) {
           final users = box.values.toList().cast<User>();
+          userList = users;
           return buildContent2(users);
         });
   }
@@ -272,6 +276,12 @@ class _TransactionPageState extends State<TransactionPage>
       ..age = age;
     final box = Boxes.getUsers();
     box.add(user);
+    // box.put('mykey', user);
+
+    // final mybox = Boxes.getUsers();
+    // final myUsers = mybox.get('key');
+    // mybox.values;
+    // mybox.keys;
   }
 
   void editTransaction(
@@ -296,5 +306,12 @@ class _TransactionPageState extends State<TransactionPage>
 
     transaction.delete();
     //setState(() => transactions.remove(transaction));
+  }
+
+  void deleteAllUsers() {
+    final box = Boxes.getUsers();
+    final myKey = box.keys;
+    print(myKey);
+    box.deleteAll(myKey);
   }
 }
