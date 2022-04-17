@@ -121,11 +121,9 @@ Future addStudent(String name, int age) async {
   final student = Student()
     ..name = name
     ..age = age;
-
   final box = Boxes.getStudents();
   box.add(student);
   //box.put('mykey', transaction);
-
   // final mybox = Boxes.getTransactions();
   // final myTransaction = mybox.get('key');
   // mybox.values;
@@ -141,7 +139,6 @@ void editTransaction(
   student.age = age;
   // final box = Boxes.getTransactions();
   // box.put(transaction.key, transaction);
-
   student.save();
 }
 

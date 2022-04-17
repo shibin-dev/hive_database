@@ -108,9 +108,7 @@ class _StudentDialogState extends State<StudentDialog> {
         if (isValid) {
           final name = nameController.text;
           final age = int.tryParse(ageController.text) ?? 0;
-
           widget.onClickedDone(name,age);
-
           Navigator.of(context).pop();
         }
       },

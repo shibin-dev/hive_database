@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'model/student.dart';
 import 'page/student_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Hive.initFlutter();
-
   Hive.registerAdapter(StudentAdapter());
   await Hive.openBox<Student>('students');
-
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static final String title = 'Hive Expense App';
+  static const String title = 'Hive Student Details App';
 
   @override
   Widget build(BuildContext context) => MaterialApp(
