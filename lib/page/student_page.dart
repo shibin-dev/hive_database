@@ -73,7 +73,7 @@ Widget buildStudent(
   Student student,
 ) {
   return Card(
-    margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
+    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
     color: Colors.white,
     child: ExpansionTile(
       tilePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -123,7 +123,7 @@ Future addStudent(String name, int age) async {
     ..age = age;
   final box = Boxes.getStudents();
   box.add(student);
-  //box.put('mykey', transaction);
+  //box.put('mykey', student);
   // final mybox = Boxes.getTransactions();
   // final myTransaction = mybox.get('key');
   // mybox.values;
@@ -132,20 +132,20 @@ Future addStudent(String name, int age) async {
 
 void editTransaction(
   Student student,
-  String name,
-  int age,
+  String newName,
+  int newAge,
 ) {
-  student.name = name;
-  student.age = age;
-  // final box = Boxes.getTransactions();
-  // box.put(transaction.key, transaction);
+  student.name = newName;
+  student.age = newAge;
+  // final box = Boxes.getStudents();
+  // box.put(student.key, student);
   student.save();
 }
 
 void deleteTransaction(Student student) {
-  // final box = Boxes.getTransactions();
-  // box.delete(transaction.key);
+  final box = Boxes.getStudents();
+  box.delete(student.key);
 
-  student.delete();
+  // student.delete();
   //setState(() => transactions.remove(transaction));
 }
