@@ -1,53 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_new_project/model/student.dart';
 
-import '../model/transaction.dart';
+class StudentDialog extends StatefulWidget {
+  final Student? student;
+  final Function(String name, int age,) onClickedDone;
 
-class TransactionDialog extends StatefulWidget {
-  final Transaction? transaction;
-  final Function(String name, double amount, bool isExpense) onClickedDone;
-
-  const TransactionDialog({
+  const StudentDialog({
     Key? key,
-    this.transaction,
+    this.student,
     required this.onClickedDone,
   }) : super(key: key);
 
   @override
-  _TransactionDialogState createState() => _TransactionDialogState();
+  _StudentDialogState createState() => _StudentDialogState();
 }
 
-class _TransactionDialogState extends State<TransactionDialog> {
+class _StudentDialogState extends State<StudentDialog> {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  final amountController = TextEditingController();
-
-  bool isExpense = true;
+  final ageController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.transaction != null) {
-      final transaction = widget.transaction!;
+    if (widget.student != null) {
+      final student = widget.student!;
 
-      nameController.text = transaction.name;
-      amountController.text = transaction.amount.toString();
-      isExpense = transaction.isExpense;
+      nameController.text = student.name;
+      ageController.text = student.age.toString();
     }
   }
 
   @override
   void dispose() {
     nameController.dispose();
-    amountController.dispose();
+    ageController.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isEditing = widget.transaction != null;
-    final title = isEditing ? 'Edit Transaction' : 'Add Transaction';
+    final isEditing = widget.student != null;
+    final title = isEditing ? 'Edit Student' : 'Add Student';
 
     return AlertDialog(
       title: Text(title),
@@ -57,12 +53,11 @@ class _TransactionDialogState extends State<TransactionDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               buildName(),
-              SizedBox(height: 8),
-              buildAmount(),
-              SizedBox(height: 8),
-              buildRadioButtons(),
+              const SizedBox(height: 8),
+              buildAge(),
+              const SizedBox(height: 8),
             ],
           ),
         ),
@@ -76,7 +71,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
 
   Widget buildName() => TextFormField(
         controller: nameController,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: OutlineInputBorder(),
           hintText: 'Enter Name',
         ),
@@ -84,37 +79,21 @@ class _TransactionDialogState extends State<TransactionDialog> {
             name != null && name.isEmpty ? 'Enter a name' : null,
       );
 
-  Widget buildAmount() => TextFormField(
-        decoration: InputDecoration(
+  Widget buildAge() => TextFormField(
+        decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          hintText: 'Enter Amount',
+          hintText: 'Enter Age',
         ),
         keyboardType: TextInputType.number,
         validator: (amount) => amount != null && double.tryParse(amount) == null
             ? 'Enter a valid number'
             : null,
-        controller: amountController,
+        controller: ageController,
       );
 
-  Widget buildRadioButtons() => Column(
-        children: [
-          RadioListTile<bool>(
-            title: Text('Expense'),
-            value: true,
-            groupValue: isExpense,
-            onChanged: (value) => setState(() => isExpense = value!),
-          ),
-          RadioListTile<bool>(
-            title: Text('Income'),
-            value: false,
-            groupValue: isExpense,
-            onChanged: (value) => setState(() => isExpense = value!),
-          ),
-        ],
-      );
 
   Widget buildCancelButton(BuildContext context) => TextButton(
-        child: Text('Cancel'),
+        child: const Text('Cancel'),
         onPressed: () => Navigator.of(context).pop(),
       );
 
@@ -128,9 +107,9 @@ class _TransactionDialogState extends State<TransactionDialog> {
 
         if (isValid) {
           final name = nameController.text;
-          final amount = double.tryParse(amountController.text) ?? 0;
+          final age = int.tryParse(ageController.text) ?? 0;
 
-          widget.onClickedDone(name, amount, isExpense);
+          widget.onClickedDone(name,age);
 
           Navigator.of(context).pop();
         }

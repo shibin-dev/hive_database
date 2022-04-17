@@ -1,9 +1,6 @@
+import 'package:flutter_new_project/model/student.dart';
 import 'package:hive/hive.dart';
-
-import 'model/transaction.dart';
-
 class Boxes {
-  static Box<Transaction> getTransactions() =>
-      Hive.box<Transaction>('transactions');
-  static Box<User> getUsers() => Hive.box<User>('users');
+  static Box<Student> getStudents() =>
+      Hive.box<Student>('students');
 }
